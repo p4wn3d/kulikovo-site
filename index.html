@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Агрохолдинг ЗАО "Куликово"</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
         :root {
             --primary: #1e5128;
@@ -36,7 +36,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: 
+            background:
                 radial-gradient(circle at 20% 30%, rgba(139, 195, 74, 0.15) 0%, transparent 50%),
                 radial-gradient(circle at 80% 70%, rgba(78, 159, 61, 0.15) 0%, transparent 50%);
             animation: backgroundShift 20s ease infinite;
@@ -48,33 +48,6 @@
             0%, 100% { opacity: 0.5; }
             50% { opacity: 0.8; }
         }
-
-        .particles {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
-            z-index: 1;
-            pointer-events: none;
-        }
-
-        .particle {
-            position: absolute;
-            background: rgba(255, 255, 255, 0.6);
-            border-radius: 50%;
-            animation: float-particle 15s infinite ease-in-out;
-        }
-
-        @keyframes float-particle {
-            0%, 100% { transform: translate(0, 0); opacity: 0.3; }
-            50% { transform: translate(100px, -200px); opacity: 0.6; }
-        }
-
-        .particle:nth-child(1) { width: 4px; height: 4px; top: 20%; left: 20%; animation-delay: 0s; }
-        .particle:nth-child(2) { width: 6px; height: 6px; top: 40%; left: 60%; animation-delay: 2s; }
-        .particle:nth-child(3) { width: 3px; height: 3px; top: 60%; left: 30%; animation-delay: 4s; }
-        .particle:nth-child(4) { width: 5px; height: 5px; top: 80%; left: 70%; animation-delay: 6s; }
 
         .container {
             position: relative;
@@ -310,14 +283,6 @@
             content: '←';
         }
 
-        .news-full-image {
-            width: 100%;
-            max-height: 500px;
-            object-fit: cover;
-            border-radius: 20px;
-            margin-bottom: 30px;
-        }
-
         .news-full-title {
             font-size: 3em;
             font-weight: 800;
@@ -358,23 +323,24 @@
         }
 
         @media (max-width: 768px) {
-            header h1 { font-size: 2.5em; }
-            .news-grid { grid-template-columns: 1fr; }
-            .news-full-title { font-size: 2em; }
+            header h1 {
+                font-size: 2.5em;
+            }
+
+            .news-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .news-full-title {
+                font-size: 2em;
+            }
         }
     </style>
 </head>
 <body>
-    <div class="particles">
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-        <div class="particle"></div>
-    </div>
-
     <div class="container">
         <header>
-            <h1>ЗАО "КУЛИКОВО"</h1>
+            <h1>ЗАО "Куликово"</h1>
             <p class="tagline">Производитель овощей и молочной продукции</p>
         </header>
 
@@ -396,7 +362,6 @@
 
         <div id="news-full" class="news-full">
             <button class="back-button" onclick="goBack()">Назад к новостям</button>
-            <img id="fullImage" src="" alt="" class="news-full-image">
             <h1 id="fullTitle" class="news-full-title"></h1>
             <div class="news-meta">
                 <span id="fullDate"></span>
@@ -413,21 +378,21 @@
     </div>
 
     <script>
-        // 🔧 ЗАМЕНИ ЭТИ ЗНАЧЕНИЯ НА СВОИ:
-        const SHEET_ID = '1CjqDSZwdSRmXkLFTQmSAMjBEC2QQRkYV1DsWE0Jgpm8';
-        const API_KEY = 'AIzaSyCr2TnfxFG6DAv5sx4b-yByZvLKCHIqZCM';
+        // 🔧 Вставь сюда свои данные:
+       const SHEET_ID = '1CjqDSZwdSRmXkLFTQmSAMjBEC2QQRkYV1DsWE0Jgpm8'; 
+        const API_KEY = 'AIzaSyCr2TnfxFG6DAv5sx4b-yByZvLKCHIqZCM'; 
         const SHEET_NAME = 'Лист1';
-        
+
         let allNews = [];
 
         async function loadNews() {
             const url = `https://sheets.googleapis.com/v4/spreadsheets/${SHEET_ID}/values/${SHEET_NAME}?key=${API_KEY}`;
-            
+
             try {
                 const response = await fetch(url);
                 const data = await response.json();
                 const rows = data.values;
-                
+
                 allNews = rows.slice(1).map(row => ({
                     id: row[0],
                     date: row[1],
@@ -438,12 +403,11 @@
                     category: row[6],
                     badge: row[7]
                 }));
-                
+
                 handleRouting();
-                
             } catch (error) {
                 console.error('Ошибка:', error);
-                document.getElementById('newsGrid').innerHTML = 
+                document.getElementById('newsGrid').innerHTML =
                     '<p style="color: white;">❌ Ошибка загрузки. Проверь SHEET_ID и API_KEY в коде!</p>';
             }
         }
@@ -451,7 +415,7 @@
         function handleRouting() {
             const urlParams = new URLSearchParams(window.location.search);
             const newsId = urlParams.get('news');
-            
+
             if (newsId) {
                 showSingleNews(newsId);
             } else {
@@ -462,9 +426,11 @@
         function showNewsList() {
             document.getElementById('news-list').classList.remove('hidden');
             document.getElementById('news-full').classList.remove('active');
-            
+
             const newsGrid = document.getElementById('newsGrid');
-            newsGrid.innerHTML = allNews.map(news => `
+            newsGrid.innerHTML = allNews
+                .map(
+                    news => `
                 <article class="news-card" onclick="openNews('${news.id}')">
                     <div class="news-image-wrapper">
                         <img src="${news.image}" alt="${news.title}" class="news-image">
@@ -479,8 +445,9 @@
                         <p class="news-description">${news.preview}</p>
                         <a href="?news=${news.id}" class="read-more" onclick="event.preventDefault(); openNews('${news.id}')">Читать далее</a>
                     </div>
-                </article>
-            `).join('');
+                </article>`
+                )
+                .join('');
         }
 
         function showSingleNews(newsId) {
@@ -489,17 +456,22 @@
                 showNewsList();
                 return;
             }
-            
+
             document.getElementById('news-list').classList.add('hidden');
             document.getElementById('news-full').classList.add('active');
-            
-            document.getElementById('fullImage').src = news.image;
+
+            // Убираем превью картинку
+            // Таким образом картинка будет показываться только в fullText, если там есть HTML <img>
+            // (строка ниже скрывает блок превью картинки)
+            // Если хочешь показывать превью, убери комментарии у следующей строки:
+            // document.getElementById('fullImage').style.display = 'none';
+
             document.getElementById('fullTitle').textContent = news.title;
             document.getElementById('fullDate').textContent = '📅 ' + news.date;
             document.getElementById('fullCategory').textContent = news.category;
             document.getElementById('fullBadge').textContent = news.badge;
             document.getElementById('fullContent').innerHTML = news.fullText;
-            
+
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
